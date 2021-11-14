@@ -19,11 +19,17 @@ namespace WindowsFormsBattleship
 			InitializeComponent();
 		}
 
+		// Передача корабля на форму
+		public void SetShip(IShip ship)
+		{
+			this.ship = ship;
+			Draw();
+		}
 		private void Draw()
 		{
 			Bitmap bmp = new Bitmap(pictureBoxShip.Width, pictureBoxShip.Height);
 			Graphics gr = Graphics.FromImage(bmp);
-			ship.DrawShip(gr);
+			ship?.DrawShip(gr);
 			pictureBoxShip.Image = bmp;
 		}
 
@@ -58,16 +64,16 @@ namespace WindowsFormsBattleship
 			switch (name)
 			{
 				case "buttonUp":
-					ship.MoveTransport(Direction.Up);
+					ship?.MoveTransport(Direction.Up);
 					break;
 				case "buttonDown":
-					ship.MoveTransport(Direction.Down);
+					ship?.MoveTransport(Direction.Down);
 					break;
 				case "buttonLeft":
-					ship.MoveTransport(Direction.Left);
+					ship?.MoveTransport(Direction.Left);
 					break;
 				case "buttonRight":
-					ship.MoveTransport(Direction.Right);
+					ship?.MoveTransport(Direction.Right);
 					break;
 			}
 			Draw();
