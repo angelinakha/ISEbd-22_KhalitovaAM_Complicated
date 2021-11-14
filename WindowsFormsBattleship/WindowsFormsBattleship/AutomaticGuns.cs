@@ -50,6 +50,7 @@ namespace WindowsFormsBattleship
             g.DrawLine(pen, x + 30, y + 45, x + 30, y + 48);
             g.DrawLine(pen, x + 30, y + 48, x + 37, y + 45);
             g.FillRectangle(blackBrush, x + 17, y + 41, 8, 3);
+
         }
     }
 }
