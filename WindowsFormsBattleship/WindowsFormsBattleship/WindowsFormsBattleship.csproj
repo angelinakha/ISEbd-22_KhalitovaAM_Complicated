@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomaticGuns.cs" />
     <Compile Include="ClassDop.cs" />
     <Compile Include="DopEnum.cs" />
     <Compile Include="Enum.cs" />
@@ -56,8 +57,15 @@
     <Compile Include="Form Battleship.Designer.cs">
       <DependentUpon>Form Battleship.cs</DependentUpon>
     </Compile>
+    <Compile Include="InterDop.cs" />
+    <Compile Include="IShip.cs" />
+    <Compile Include="ModificGuns.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ship.cs" />
+    <Compile Include="StandartGuns.cs" />
+    <Compile Include="TypesGunsEnum.cs" />
+    <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="Form Battleship.resx">
       <DependentUpon>Form Battleship.cs</DependentUpon>
     </EmbeddedResource>

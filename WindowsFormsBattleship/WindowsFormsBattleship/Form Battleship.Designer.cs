@@ -33,11 +33,17 @@
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.pictureBoxShip = new System.Windows.Forms.PictureBox();
-            this.buttonCreate = new System.Windows.Forms.Button();
+            this.buttonShipCreate = new System.Windows.Forms.Button();
             this.comboBox_number = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox_typeGun = new System.Windows.Forms.GroupBox();
+            this.radioButton_automatic = new System.Windows.Forms.RadioButton();
+            this.radioButton_modif = new System.Windows.Forms.RadioButton();
+            this.radioButton_standart = new System.Windows.Forms.RadioButton();
+            this.buttonCreate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShip)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBox_typeGun.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonDown
@@ -86,21 +92,21 @@
             // 
             // pictureBoxShip
             // 
-            this.pictureBoxShip.Location = new System.Drawing.Point(0, 57);
+            this.pictureBoxShip.Location = new System.Drawing.Point(0, 108);
             this.pictureBoxShip.Name = "pictureBoxShip";
-            this.pictureBoxShip.Size = new System.Drawing.Size(784, 454);
+            this.pictureBoxShip.Size = new System.Drawing.Size(784, 403);
             this.pictureBoxShip.TabIndex = 5;
             this.pictureBoxShip.TabStop = false;
             // 
-            // buttonCreate
+            // buttonShipCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(593, 12);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(165, 39);
-            this.buttonCreate.TabIndex = 0;
-            this.buttonCreate.Text = "Создать линкор";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonShipCreate.Location = new System.Drawing.Point(437, 12);
+            this.buttonShipCreate.Name = "buttonShipCreate";
+            this.buttonShipCreate.Size = new System.Drawing.Size(165, 39);
+            this.buttonShipCreate.TabIndex = 0;
+            this.buttonShipCreate.Text = "Создать корабль";
+            this.buttonShipCreate.UseVisualStyleBackColor = true;
+            this.buttonShipCreate.Click += new System.EventHandler(this.buttonShipCreate_Click);
             // 
             // comboBox_number
             // 
@@ -116,13 +122,70 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox_typeGun);
             this.panel1.Controls.Add(this.comboBox_number);
-            this.panel1.Controls.Add(this.buttonCreate);
+            this.panel1.Controls.Add(this.buttonShipCreate);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(784, 58);
+            this.panel1.Size = new System.Drawing.Size(784, 112);
             this.panel1.TabIndex = 8;
+            // 
+            // groupBox_typeGun
+            // 
+            this.groupBox_typeGun.Controls.Add(this.radioButton_automatic);
+            this.groupBox_typeGun.Controls.Add(this.radioButton_modif);
+            this.groupBox_typeGun.Controls.Add(this.radioButton_standart);
+            this.groupBox_typeGun.Controls.Add(this.buttonCreate);
+            this.groupBox_typeGun.Location = new System.Drawing.Point(608, 3);
+            this.groupBox_typeGun.Name = "groupBox_typeGun";
+            this.groupBox_typeGun.Size = new System.Drawing.Size(173, 109);
+            this.groupBox_typeGun.TabIndex = 8;
+            this.groupBox_typeGun.TabStop = false;
+            this.groupBox_typeGun.Text = "Выбор ракеты";
+            // 
+            // radioButton_automatic
+            // 
+            this.radioButton_automatic.AutoSize = true;
+            this.radioButton_automatic.Location = new System.Drawing.Point(6, 53);
+            this.radioButton_automatic.Name = "radioButton_automatic";
+            this.radioButton_automatic.Size = new System.Drawing.Size(109, 17);
+            this.radioButton_automatic.TabIndex = 10;
+            this.radioButton_automatic.TabStop = true;
+            this.radioButton_automatic.Text = "Автоматическая";
+            this.radioButton_automatic.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_modif
+            // 
+            this.radioButton_modif.AutoSize = true;
+            this.radioButton_modif.Location = new System.Drawing.Point(6, 33);
+            this.radioButton_modif.Name = "radioButton_modif";
+            this.radioButton_modif.Size = new System.Drawing.Size(87, 17);
+            this.radioButton_modif.TabIndex = 9;
+            this.radioButton_modif.TabStop = true;
+            this.radioButton_modif.Text = "Улучшенная";
+            this.radioButton_modif.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_standart
+            // 
+            this.radioButton_standart.AutoSize = true;
+            this.radioButton_standart.Location = new System.Drawing.Point(6, 13);
+            this.radioButton_standart.Name = "radioButton_standart";
+            this.radioButton_standart.Size = new System.Drawing.Size(93, 17);
+            this.radioButton_standart.TabIndex = 8;
+            this.radioButton_standart.TabStop = true;
+            this.radioButton_standart.Text = "Стандартная ";
+            this.radioButton_standart.UseVisualStyleBackColor = true;
+            // 
+            // buttonCreate
+            // 
+            this.buttonCreate.Location = new System.Drawing.Point(6, 71);
+            this.buttonCreate.Name = "buttonCreate";
+            this.buttonCreate.Size = new System.Drawing.Size(165, 35);
+            this.buttonCreate.TabIndex = 7;
+            this.buttonCreate.Text = "Создать линкор";
+            this.buttonCreate.UseVisualStyleBackColor = true;
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
             // FormBattleship
             // 
@@ -140,6 +203,8 @@
             this.Text = "Линкор";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShip)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.groupBox_typeGun.ResumeLayout(false);
+            this.groupBox_typeGun.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -150,9 +215,14 @@
 		private System.Windows.Forms.Button buttonLeft;
 		private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.PictureBox pictureBoxShip;
-        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonShipCreate;
         private System.Windows.Forms.ComboBox comboBox_number;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.GroupBox groupBox_typeGun;
+        private System.Windows.Forms.RadioButton radioButton_standart;
+        private System.Windows.Forms.RadioButton radioButton_automatic;
+        private System.Windows.Forms.RadioButton radioButton_modif;
     }
 }
 
