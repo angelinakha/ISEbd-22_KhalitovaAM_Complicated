@@ -9,8 +9,10 @@ namespace WindowsFormsBattleship
 {
 	public class Docks<T, M> where T : class, IShip where M : class, InterDop
 	{
-		/// Массив объектов, которые храним
-		private readonly T[] _places;
+		/// Список объектов, которые храним
+		public readonly List<T> _places;
+		/// Максимальное количество мест на парковке
+		private readonly int _maxCount;
 		/// Ширина окна отрисовки
 		private readonly int pictureWidth;
 		/// Высота окна отрисовки
@@ -24,70 +26,64 @@ namespace WindowsFormsBattleship
 		{
 			int width = picWidth / _placeSizeWidth;
 			int height = picHeight / _placeSizeHeight;
-			_places = new T[width * height];
+			_maxCount = width * height;
+			_places = new List<T>();
 			pictureWidth = picWidth;
 			pictureHeight = picHeight;
 		}
 
 		public static bool operator +(Docks<T, M> p, T ship)
 		{
-			int width = p.pictureWidth / p._placeSizeWidth;
-			for (int i = 0; i < p._places.Length; i++)
+			if (p._places.Count >= p._maxCount)
 			{
-				if (p._places[i] == null)
-				{
-					p._places[i] = ship;
-					ship.SetPosition(i % width * p._placeSizeWidth + 10,
-					i / width * p._placeSizeHeight + 20, p.pictureWidth, p.pictureHeight);
-					return true;
-				}
+				return false;
 			}
-			return false;
+			p._places.Add(ship);
+			return true;
 		}
 
 		public static T operator -(Docks<T, M> p, int index)
 		{
-			if ((index < p._places.Length) && (index >= 0))
+			if ((index < -1) || (index >= p._places.Count))
 			{
-				T ship = p._places[index];
-				p._places[index] = null;
-				return ship;
+				return null;
 			}
-			return null;
+			T ship = p._places[index];
+			p._places.RemoveAt(index);
+			return ship;
 		}
 		// Перегрузка на заполненность доков
 		public static bool operator >(Docks<T, M> p, double index)
         {
-			double count = 0;
-			for (int i = 0; i < p._places.Length; ++i)
-			{
-				if (p._places[i] != null)
-				{
-					count++;
-				}
-			}
-			return count > index;
+
+			return p.count_op() > index;
 		}
 		public static bool operator <(Docks<T, M> p, double index)
 		{
-			double count = 0;
-			for (int i = 0; i < p._places.Length; ++i)
+			return p.count_op() < index;
+		}
+
+		public int count_op()
+		{
+			int count = 0;
+			for (int i = 0; i < _places.Count; ++i)
 			{
-				if (p._places[i] != null)
+				if (_places[i] != null)
 				{
 					count++;
 				}
 			}
-			return count < index;
+			return count;
 		}
 
 		//Метод отрисовки доков
 		public void Draw(Graphics g)
 		{
 			DrawMarking(g);
-			for (int i = 0; i < _places.Length; i++)
+			for (int i = 0; i < _places.Count; i++)
 			{
-				_places[i]?.DrawShip(g);
+				_places[i].SetPosition(5 + i % 5 * _placeSizeWidth + 5, i / 5 * _placeSizeHeight + 15, pictureWidth, pictureHeight);
+				_places[i].DrawShip(g);
 			}
 		}
 
@@ -104,6 +100,18 @@ namespace WindowsFormsBattleship
 				}
 				g.DrawLine(pen, i * _placeSizeWidth, 0, i * _placeSizeWidth,
 			   (pictureHeight / _placeSizeHeight) * _placeSizeHeight);
+			}
+		}
+
+		public T this[int index]
+		{
+			get
+			{
+				if (index >= 0 && index < _maxCount)
+				{
+					return _places[index];
+				}
+				return null;
 			}
 		}
 	}
