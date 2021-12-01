@@ -49,6 +49,7 @@
     <Compile Include="AutomaticGuns.cs" />
     <Compile Include="ClassDop.cs" />
     <Compile Include="Docks.cs" />
+    <Compile Include="DocksCollection.cs" />
     <Compile Include="DopEnum.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="ClassBattleship.cs" />
