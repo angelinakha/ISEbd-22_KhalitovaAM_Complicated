@@ -30,10 +30,17 @@ namespace WindowsFormsBattleship
                     break;
             }
         }
+
         public ClassDop(int g_count)
         {
             Guns = g_count;
         }
+
+        public void SetNumCan(string num)
+		{
+            Guns = Convert.ToInt32(num);
+		}
+
         public void Draw2(Graphics g, Pen dopСolor, Brush dopBr, float x, float y)
         {
             g.DrawEllipse(dopСolor, x + (2 * 70 + 35) / 6, y - 5, 15, 5);

@@ -32,8 +32,7 @@
             this.button_extract = new System.Windows.Forms.Button();
             this.maskedTextBox_place = new System.Windows.Forms.MaskedTextBox();
             this.label_place = new System.Windows.Forms.Label();
-            this.button_parkBShip = new System.Windows.Forms.Button();
-            this.button_parkShip = new System.Windows.Forms.Button();
+            this.button_AddShip = new System.Windows.Forms.Button();
             this.pictureBox_doc = new System.Windows.Forms.PictureBox();
             this.groupBox_whatPlaces = new System.Windows.Forms.GroupBox();
             this.button_checking = new System.Windows.Forms.Button();
@@ -88,25 +87,15 @@
             this.label_place.TabIndex = 0;
             this.label_place.Text = "Место:";
             // 
-            // button_parkBShip
+            // button_AddShip
             // 
-            this.button_parkBShip.Location = new System.Drawing.Point(656, 230);
-            this.button_parkBShip.Name = "button_parkBShip";
-            this.button_parkBShip.Size = new System.Drawing.Size(140, 36);
-            this.button_parkBShip.TabIndex = 6;
-            this.button_parkBShip.Text = "Припарковать линкор";
-            this.button_parkBShip.UseVisualStyleBackColor = true;
-            this.button_parkBShip.Click += new System.EventHandler(this.button_parkBShip_Click);
-            // 
-            // button_parkShip
-            // 
-            this.button_parkShip.Location = new System.Drawing.Point(655, 186);
-            this.button_parkShip.Name = "button_parkShip";
-            this.button_parkShip.Size = new System.Drawing.Size(140, 38);
-            this.button_parkShip.TabIndex = 5;
-            this.button_parkShip.Text = "Припарковать корабль";
-            this.button_parkShip.UseVisualStyleBackColor = true;
-            this.button_parkShip.Click += new System.EventHandler(this.button_parkShip_Click);
+            this.button_AddShip.Location = new System.Drawing.Point(655, 186);
+            this.button_AddShip.Name = "button_AddShip";
+            this.button_AddShip.Size = new System.Drawing.Size(140, 38);
+            this.button_AddShip.TabIndex = 5;
+            this.button_AddShip.Text = "Припарковать корабль";
+            this.button_AddShip.UseVisualStyleBackColor = true;
+            this.button_AddShip.Click += new System.EventHandler(this.button_AddShip_Click);
             // 
             // pictureBox_doc
             // 
@@ -223,8 +212,7 @@
             this.Controls.Add(this.textBox_parkName);
             this.Controls.Add(this.groupBox_whatPlaces);
             this.Controls.Add(this.groupBox_extract);
-            this.Controls.Add(this.button_parkBShip);
-            this.Controls.Add(this.button_parkShip);
+            this.Controls.Add(this.button_AddShip);
             this.Controls.Add(this.pictureBox_doc);
             this.Name = "FormDocks";
             this.Text = "Доки";
@@ -244,8 +232,7 @@
         private System.Windows.Forms.Button button_extract;
         private System.Windows.Forms.MaskedTextBox maskedTextBox_place;
         private System.Windows.Forms.Label label_place;
-        private System.Windows.Forms.Button button_parkBShip;
-        private System.Windows.Forms.Button button_parkShip;
+        private System.Windows.Forms.Button button_AddShip;
         private System.Windows.Forms.PictureBox pictureBox_doc;
         private System.Windows.Forms.GroupBox groupBox_whatPlaces;
         private System.Windows.Forms.Label label_numPlace;

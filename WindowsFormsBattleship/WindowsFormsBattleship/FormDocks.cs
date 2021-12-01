@@ -65,22 +65,23 @@ namespace WindowsFormsBattleship
 			docksCollection.AddParking(textBox_parkName.Text);
 			ReloadLevels();
 		}
-		private void button_parkShip_Click(object sender, EventArgs e)
+		private void button_AddShip_Click(object sender, EventArgs e)
 		{
-			if (listBox_listDoc.SelectedIndex > -1)
+			var formShipConfig = new FormShipConfig();
+			formShipConfig.AddEvent(AddShip);
+			formShipConfig.Show();
+		}
+		private void AddShip(Vehicle ship)
+		{
+			if (ship != null && listBox_listDoc.SelectedIndex > -1)
 			{
-				ColorDialog dialog = new ColorDialog();
-				if (dialog.ShowDialog() == DialogResult.OK)
+				if ((docksCollection[listBox_listDoc.SelectedItem.ToString()]) + ship)
 				{
-					var ship = new Ship(100, 1000, dialog.Color);
-					if (docksCollection[listBox_listDoc.SelectedItem.ToString()] + ship)
-					{
-						Draw();
-					}
-					else
-					{
-						MessageBox.Show("Доки переполнены");
-					}
+					Draw();
+				}
+				else
+				{
+					MessageBox.Show("Припарковать корабль не удалось");
 				}
 			}
 		}
@@ -114,7 +115,6 @@ namespace WindowsFormsBattleship
 		{
 			if (listBox_listDoc.SelectedIndex > -1 && maskedTextBox_place.Text != "")
 			{
-
 				var ship = docksCollection[listBox_listDoc.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBox_place.Text);
 				if (ship != null)
 				{

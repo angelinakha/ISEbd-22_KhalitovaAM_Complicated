@@ -55,7 +55,6 @@ namespace WindowsFormsBattleship
 		// Перегрузка на заполненность доков
 		public static bool operator >(Docks<T, M> p, double index)
         {
-
 			return p.count_op() > index;
 		}
 		public static bool operator <(Docks<T, M> p, double index)

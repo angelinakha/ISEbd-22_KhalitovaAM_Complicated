@@ -15,10 +15,9 @@ namespace WindowsFormsBattleship
 
         public Color DopColor { private set; get; }
 
-        public ModificGuns(int numType, Color dopColor)
+        public ModificGuns(int numType)
         {
             TypesGuns = numType;
-            DopColor = dopColor;
         }
 
         public void DrawDiffGuns(Graphics g, Color dopColor, float x, float y)

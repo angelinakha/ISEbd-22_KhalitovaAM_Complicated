@@ -12,6 +12,7 @@ namespace WindowsFormsBattleship
 		void SetPosition(int x, int y, int width, int height);
 		void MoveTransport(Direction direction);
 		void DrawShip(Graphics g);
+		void SetBasicColor(Color color);
 
 	}
 }

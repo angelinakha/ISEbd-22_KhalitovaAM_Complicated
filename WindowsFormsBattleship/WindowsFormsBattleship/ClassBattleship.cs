@@ -30,15 +30,15 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             Guns = new ClassDop(guns);
             if (typeRocket == 1)
             {
-                TypeRocket = new StandartGuns(typeRocket, dopColor);
+                TypeRocket = new StandartGuns(typeRocket);
             }
             if (typeRocket == 2)
             {
-                TypeRocket = new ModificGuns(typeRocket, dopColor);
+                TypeRocket = new ModificGuns(typeRocket);
             }
             if (typeRocket == 3)
             {
-                TypeRocket = new AutomaticGuns(typeRocket, dopColor);
+                TypeRocket = new AutomaticGuns(typeRocket);
             }
         }
 
@@ -58,5 +58,18 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
                 TypeRocket.DrawDiffGuns(g, DopColor, _startPosX, _startPosY);
             }
         }
+        public void SetIDop(InterDop interDop)
+        {
+            TypeRocket = interDop;
+        }
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
+        }
+
+        public void SetNum(string num)
+		{
+            Guns.SetNumCan(num);
+		}
     }
 }
