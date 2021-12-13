@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
+
 
 namespace WindowsFormsBattleship
 {
@@ -15,11 +17,14 @@ namespace WindowsFormsBattleship
 		private readonly DocksCollection docksCollection;
 		private Stack<Vehicle> shipInStack;
 
+		/// Логгер
+		private readonly Logger logger;
 		public FormDocks()
 		{
 			InitializeComponent();
 			docksCollection = new DocksCollection(pictureBox_doc.Width, pictureBox_doc.Height);
 			shipInStack = new Stack<Vehicle>();
+			logger = LogManager.GetCurrentClassLogger();
 			Draw();
 		}
 
@@ -62,6 +67,7 @@ namespace WindowsFormsBattleship
 			   MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
+			logger.Info($"Добавили доки {textBox_parkName.Text}");
 			docksCollection.AddParking(textBox_parkName.Text);
 			ReloadLevels();
 		}
@@ -75,13 +81,30 @@ namespace WindowsFormsBattleship
 		{
 			if (ship != null && listBox_listDoc.SelectedIndex > -1)
 			{
-				if ((docksCollection[listBox_listDoc.SelectedItem.ToString()]) + ship)
+				try
 				{
+					if ((docksCollection[listBox_listDoc.SelectedItem.ToString()]) + ship)
+					{
+						Draw();
+						logger.Info($"Добавлен корабль {ship}");
+					}
+					else
+					{
+						logger.Warn("Корабль не удалось поставить");
+					}
 					Draw();
 				}
-				else
+				catch (DocksOverflowException ex)
 				{
-					MessageBox.Show("Припарковать корабль не удалось");
+					MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+					logger.Warn($"{ex.Message} Переполнение");
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message, "Неизвестная ошибка",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+					logger.Fatal($"{ex.Message} Неизвестная ошибка");
 				}
 			}
 		}
@@ -115,13 +138,29 @@ namespace WindowsFormsBattleship
 		{
 			if (listBox_listDoc.SelectedIndex > -1 && maskedTextBox_place.Text != "")
 			{
-				var ship = docksCollection[listBox_listDoc.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBox_place.Text);
-				if (ship != null)
+				try
 				{
-					shipInStack.Push(ship);
+					var ship = docksCollection[listBox_listDoc.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBox_place.Text);
+					if (ship != null)
+					{
+						shipInStack.Push(ship);
+						logger.Info($"Изъят корабль {ship} с места {maskedTextBox_place.Text}");
+					}
+					Draw();
+					maskedTextBox_place.Text = "";
 				}
-				Draw();
-				maskedTextBox_place.Text = "";
+				catch (DocksNotFoundException ex)
+				{
+					MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+					logger.Warn($"{ex.Message} Не найдено");
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message, "Неизвестная ошибка",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+					logger.Fatal($"{ex.Message} Неизвестная ошибка");
+				}
 			}
 		}
 
@@ -132,6 +171,7 @@ namespace WindowsFormsBattleship
 			{
 				if (MessageBox.Show($"Удалить парковку { listBox_listDoc.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
+					logger.Info($"Удалили парковку {listBox_listDoc.SelectedItem.ToString()}");
 					docksCollection.DelParking(listBox_listDoc.Text);
 					ReloadLevels();
 				}
@@ -140,6 +180,7 @@ namespace WindowsFormsBattleship
 
 		private void listBox_listDoc_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			logger.Info($"Перешли на доки {listBox_listDoc.SelectedItem.ToString()}");
 			Draw();
 		}
 
@@ -179,6 +220,7 @@ namespace WindowsFormsBattleship
 			else
 			{
 				MessageBox.Show("Стек пустой");
+				logger.Info($"Стек пустой");
 			}
 			Draw();
 		}
@@ -188,15 +230,18 @@ namespace WindowsFormsBattleship
 
 			if (saveFileDialog_ship.ShowDialog() == DialogResult.OK)
 			{
-				if (docksCollection.SaveData(saveFileDialog_ship.FileName))
+				try 
 				{
+					docksCollection.SaveData(saveFileDialog_ship.FileName);
 					MessageBox.Show("Сохранение прошло успешно", "Результат",
 				   MessageBoxButtons.OK, MessageBoxIcon.Information);
+					logger.Info("Сохранено в файл " + saveFileDialog_ship.FileName);
 				}
-				else
+				catch (Exception ex)
 				{
-					MessageBox.Show("Не сохранилось", "Результат",
-				   MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+					logger.Fatal($"{ex.Message} Неизвестная ошибка при сохранении");
 				}
 			}
 		}
@@ -205,17 +250,26 @@ namespace WindowsFormsBattleship
 		{
 			if (openFileDialog_ship.ShowDialog() == DialogResult.OK)
 			{
-				if (docksCollection.LoadData(openFileDialog_ship.FileName))
+				try
 				{
+					docksCollection.LoadData(openFileDialog_ship.FileName);
 					MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
-				   MessageBoxIcon.Information);
+				    MessageBoxIcon.Information);
+					logger.Info("Загружено из файла " + openFileDialog_ship.FileName);
 					ReloadLevels();
 					Draw();
 				}
-				else
+				catch (DocksOccupiedPlaceException ex)
 				{
-					MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
-				   MessageBoxIcon.Error);
+					MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+					logger.Warn($"{ex.Message} Занятое место");
+				}
+				catch (Exception ex)
+				{
+					logger.Fatal("Вызвана неизвестная ошибка при сохранении");
+					MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -223,17 +277,32 @@ namespace WindowsFormsBattleship
 		{
 			if (openFileDialog_ship.ShowDialog() == DialogResult.OK)
 			{
-				if (docksCollection.LoadDataOne(openFileDialog_ship.FileName))
+				try 
 				{
+					docksCollection.LoadDataOne(openFileDialog_ship.FileName);
 					MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
-				   MessageBoxIcon.Information);
+				   MessageBoxIcon.Information); 
+					logger.Info("Загружено из файла " + openFileDialog_ship.FileName);
 					ReloadLevels();
 					Draw();
 				}
-				else
+				catch (NullReferenceException ex)
 				{
-					MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
-				   MessageBoxIcon.Error);
+					logger.Error("Вызвана ошибка NullReferenceException");
+					MessageBox.Show(ex.Message, "Место занято", MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
+				}
+				catch (FormatException ex)
+				{
+					logger.Error(ex.Message);
+					MessageBox.Show(ex.Message, "Ошибка загрузки",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					logger.Fatal("Неизвестная ошибка при загрузке");
+					MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -241,19 +310,25 @@ namespace WindowsFormsBattleship
         {
 				if (saveFileDialog_ship.ShowDialog() == DialogResult.OK)
 				{
-					if (listBox_listDoc.SelectedIndex > -1)
-					{
-						if (docksCollection.SaveDataOne(saveFileDialog_ship.FileName, listBox_listDoc.SelectedItem.ToString()))
-						{
-							MessageBox.Show("Сохранение прошло успешно", "Результат",
-							MessageBoxButtons.OK, MessageBoxIcon.Information);
-						}
-						else
-						{
-							MessageBox.Show("Не сохранилось", "Результат",
-							MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}
-					}
+				try
+				{
+					docksCollection.SaveDataOne(saveFileDialog_ship.FileName, listBox_listDoc.SelectedItem.ToString());
+					MessageBox.Show("Сохранение прошло успешно", "Результат",
+					MessageBoxButtons.OK, MessageBoxIcon.Information);
+					logger.Info("Сохранено в файл " + saveFileDialog_ship.FileName);
+				}
+				catch (FormatException ex)
+				{
+					logger.Error(ex.Message);
+					MessageBox.Show(ex.Message, "Ошибка при загрузке",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				catch (Exception ex)
+				{
+					logger.Fatal("Неизвестная ошибка при сохранении");
+					MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
     }

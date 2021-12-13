@@ -36,7 +36,7 @@ namespace WindowsFormsBattleship
 		{
 			if (p._places.Count >= p._maxCount)
 			{
-				return false;
+				throw new DocksOverflowException();
 			}
 			p._places.Add(ship);
 			return true;
@@ -46,7 +46,7 @@ namespace WindowsFormsBattleship
 		{
 			if ((index < -1) || (index >= p._places.Count))
 			{
-				return null;
+				throw new DocksNotFoundException(index);
 			}
 			T ship = p._places[index];
 			p._places.RemoveAt(index);
@@ -81,7 +81,7 @@ namespace WindowsFormsBattleship
 			DrawMarking(g);
 			for (int i = 0; i < _places.Count; i++)
 			{
-				_places[i].SetPosition(5 + i % 5 * _placeSizeWidth + 5, i / 5 * _placeSizeHeight + 15, pictureWidth, pictureHeight);
+				_places[i].SetPosition(5 + i % 3 * _placeSizeWidth + 5, i / 3 * _placeSizeHeight + 15, pictureWidth, pictureHeight);
 				_places[i].DrawShip(g);
 			}
 		}

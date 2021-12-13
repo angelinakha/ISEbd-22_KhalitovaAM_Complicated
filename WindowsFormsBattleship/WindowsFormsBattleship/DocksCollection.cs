@@ -156,11 +156,11 @@ namespace WindowsFormsBattleship
         }
 
         // Загрузка информации по автомобилям на парковках из файла
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             using (StreamReader sr = new StreamReader(filename))
             {
@@ -171,7 +171,13 @@ namespace WindowsFormsBattleship
                 {
                     //очищаем записи
                     parkingStages.Clear();
-                    line = sr.ReadLine();
+                }
+                else
+                {
+                    //если нет такой записи, то это не те данные
+                    throw new FormatException("Неверный формат файла");
+                }
+                line = sr.ReadLine();
                     while (line != null)
                     {
                         //идем по считанным записям
@@ -199,74 +205,72 @@ namespace WindowsFormsBattleship
                         var result = parkingStages[key] + ship;
                         if (!result)
                         {
-                            return false;
+                            throw new InvalidDataException("Не удалось загрузить корабль в доки");
                         }
                         line = sr.ReadLine();
                     }
-                    return true;
-                }
-                return false;
             }
         }
 
         // Загрузка информации по автомобилям на одной сохраненной парковке
-        public bool LoadDataOne(string filename)
+        public void LoadDataOne(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             using (StreamReader sr = new StreamReader(filename))
             {
                 string line = sr.ReadLine();
                 string key = string.Empty;
                 Vehicle ship = null;
-                if (line.Contains("OnlyOneDock"))
+                if (line.Contains("OnlyOneDock")) { }
+                else                 
                 {
-                    line = sr.ReadLine();
-                    while (line != null)
+                    //если нет такой записи, то это не те данные
+                    throw new FormatException("Неверный формат файла");
+                }
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    //идем по считанным записям
+                    if (line.Contains("Docks"))
                     {
-                        //идем по считанным записям
-                        if (line.Contains("Docks"))
+                        //начинаем новую парковку
+                        key = line.Split(separator)[1];
+                        if (parkingStages.ContainsKey(key))
                         {
-                            //начинаем новую парковку
-                            key = line.Split(separator)[1];
-                            if (parkingStages.ContainsKey(key))
-                            {
-                                parkingStages[key].ClearDocks();
-                            }
-                            else
-                            {
-                                parkingStages.Add(key, new Docks<Vehicle, ModificGuns>(pictureWidth, pictureHeight));
-                            }
-                            line = sr.ReadLine();
-                            continue;
+                            parkingStages[key].ClearDocks();
                         }
-                        if (string.IsNullOrEmpty(line))
+                        else
                         {
-                            line = sr.ReadLine();
-                            continue;
-                        }
-                        if (line.Split(separator)[0] == "Ship")
-                        {
-                            ship = new Ship(line.Split(separator)[1]);
-                        }
-                        else if (line.Split(separator)[0] == "Battleship")
-                        {
-                            ship = new Battleship(line.Split(separator)[1]);
-                        }
-                        var result = parkingStages[key] + ship;
-                        if (!result)
-                        {
-                            return false;
+                            parkingStages.Add(key, new Docks<Vehicle, ModificGuns>(pictureWidth, pictureHeight));
                         }
                         line = sr.ReadLine();
+                        continue;
                     }
-                    return true;
-                }
-                return false;
-            }
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        line = sr.ReadLine();
+                        continue;
+                    }
+                    if (line.Split(separator)[0] == "Ship")
+                    {
+                        ship = new Ship(line.Split(separator)[1]);
+                    }
+                    else if (line.Split(separator)[0] == "Battleship")
+                    {
+                        ship = new Battleship(line.Split(separator)[1]);
+                    }
+                    var result = parkingStages[key] + ship;
+                    if (!result)
+                    {
+                        throw new InvalidDataException("Не удалось загрузить корабль в доки");
+                    }
+                    line = sr.ReadLine();
 
+                }
+            }
         }
     }
 }
