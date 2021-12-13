@@ -14,7 +14,8 @@ namespace WindowsFormsBattleship
 		private readonly int shipWidth = 110;
 		/// Высота отрисовки линкора
 		private readonly int shipHeight = 55;
-
+		// Разделитель для записи информации по объекту в файл
+		protected readonly char separator = ';';
 
 		public Ship(int maxSpeed, float weight, Color mainColor)
 		{
@@ -22,6 +23,19 @@ namespace WindowsFormsBattleship
 			Weight = weight;
 			MainColor = mainColor;
 		}
+
+		// Конструктор для загрузки с файла
+		public Ship(string info)
+		{
+			string[] strs = info.Split(separator);
+			if (strs.Length == 3)
+			{
+				MaxSpeed = Convert.ToInt32(strs[0]);
+				Weight = Convert.ToInt32(strs[1]);
+				MainColor = Color.FromName(strs[2]);
+			}
+		}
+
 		protected Ship(int maxSpeed, float weight, Color mainColor, int shipWidth, int
 		shipHeight)
 		{
@@ -82,6 +96,10 @@ namespace WindowsFormsBattleship
 					}
 					break;
 			}
+		}
+		public override string ToString()
+		{
+			return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
 		}
 	}
 }

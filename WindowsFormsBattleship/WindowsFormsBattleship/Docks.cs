@@ -106,12 +106,26 @@ namespace WindowsFormsBattleship
 		{
 			get
 			{
-				if (index >= 0 && index < _maxCount)
+				if (index > -1 && index < _places.Count)
 				{
 					return _places[index];
 				}
 				return null;
 			}
+		}
+
+		// Функция получения элементы из списка
+		public T GetNext(int index)
+		{
+			if (index < 0 || index >= _places.Count)
+			{
+				return null;
+			}
+			return _places[index];
+		}
+		public void ClearDocks()
+		{
+			_places.Clear();
 		}
 	}
 }
