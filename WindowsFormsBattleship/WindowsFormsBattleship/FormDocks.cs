@@ -153,7 +153,7 @@ namespace WindowsFormsBattleship
 				{
 					MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
 					MessageBoxIcon.Error);
-					logger.Warn($"{ex.Message} Не найдено");
+					logger.Error($"{ex.Message} Не найдено");
 				}
 				catch (Exception ex)
 				{
