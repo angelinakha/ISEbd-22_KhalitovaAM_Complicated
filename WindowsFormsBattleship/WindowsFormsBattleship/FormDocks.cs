@@ -182,5 +182,79 @@ namespace WindowsFormsBattleship
 			}
 			Draw();
 		}
+
+		private void сохранитьвсеПарковкиToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+			if (saveFileDialog_ship.ShowDialog() == DialogResult.OK)
+			{
+				if (docksCollection.SaveData(saveFileDialog_ship.FileName))
+				{
+					MessageBox.Show("Сохранение прошло успешно", "Результат",
+				   MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show("Не сохранилось", "Результат",
+				   MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		private void загрузитьвсеПарковкиToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (openFileDialog_ship.ShowDialog() == DialogResult.OK)
+			{
+				if (docksCollection.LoadData(openFileDialog_ship.FileName))
+				{
+					MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+				   MessageBoxIcon.Information);
+					ReloadLevels();
+					Draw();
+				}
+				else
+				{
+					MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+				   MessageBoxIcon.Error);
+				}
+			}
+		}
+		private void загрузитьоднуПарковкуToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (openFileDialog_ship.ShowDialog() == DialogResult.OK)
+			{
+				if (docksCollection.LoadDataOne(openFileDialog_ship.FileName))
+				{
+					MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+				   MessageBoxIcon.Information);
+					ReloadLevels();
+					Draw();
+				}
+				else
+				{
+					MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
+				   MessageBoxIcon.Error);
+				}
+			}
+		}
+		private void сохранитьвыбраннуюПарковкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+				if (saveFileDialog_ship.ShowDialog() == DialogResult.OK)
+				{
+					if (listBox_listDoc.SelectedIndex > -1)
+					{
+						if (docksCollection.SaveDataOne(saveFileDialog_ship.FileName, listBox_listDoc.SelectedItem.ToString()))
+						{
+							MessageBox.Show("Сохранение прошло успешно", "Результат",
+							MessageBoxButtons.OK, MessageBoxIcon.Information);
+						}
+						else
+						{
+							MessageBox.Show("Не сохранилось", "Результат",
+							MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+			}
+		}
     }
 }

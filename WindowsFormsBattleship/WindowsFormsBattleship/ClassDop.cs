@@ -72,5 +72,10 @@ namespace WindowsFormsBattleship
             g.FillRectangle(dopBr, x + 15, y - 15, 7, 15);
             g.FillRectangle(dopBr, x + 15, y + 50, 7, 15);
         }
+        public override string ToString()
+        {
+            return
+           $"{(int)guns}";
+        }
     }
 }

@@ -41,7 +41,32 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
                 TypeRocket = new AutomaticGuns(typeRocket);
             }
         }
-
+        public Battleship(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 8)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Rocket = Convert.ToBoolean(strs[4]);
+                Cannon = Convert.ToBoolean(strs[5]);
+                if (strs[6] == "StandartGuns")
+                {
+                    TypeRocket = new StandartGuns(1);
+                }
+                else if (strs[6] == "ModificGuns")
+                {
+                    TypeRocket = new ModificGuns(2);
+                }
+                else if (strs[6] == "AutomaticGuns")
+                {
+                    TypeRocket = new AutomaticGuns(3);
+                }
+                Guns = new ClassDop(Convert.ToInt32(strs[7]));
+            }
+        }
         public override void DrawShip(Graphics g)
         {
             Pen pen = new Pen(Color.Black);
@@ -71,5 +96,10 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
 		{
             Guns.SetNumCan(num);
 		}
+        public override string ToString()
+        {
+            return
+           $"{base.ToString()}{separator}{DopColor.Name}{separator}{Rocket}{separator}{Cannon}{separator}{TypeRocket.GetType().Name}{separator}{Guns.ToString()}";
+        }
     }
 }

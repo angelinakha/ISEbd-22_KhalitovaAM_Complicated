@@ -44,9 +44,20 @@
             this.button_add = new System.Windows.Forms.Button();
             this.listBox_listDoc = new System.Windows.Forms.ListBox();
             this.buttonAddFromStack = new System.Windows.Forms.Button();
+            this.menuStrip_ship = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выбраннуюПарковкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.всеПарковкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.однуПарковкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.всеПарковкиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog_ship = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog_ship = new System.Windows.Forms.OpenFileDialog();
             this.groupBox_extract.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_doc)).BeginInit();
             this.groupBox_whatPlaces.SuspendLayout();
+            this.menuStrip_ship.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_extract
@@ -54,7 +65,7 @@
             this.groupBox_extract.Controls.Add(this.button_extract);
             this.groupBox_extract.Controls.Add(this.maskedTextBox_place);
             this.groupBox_extract.Controls.Add(this.label_place);
-            this.groupBox_extract.Location = new System.Drawing.Point(656, 272);
+            this.groupBox_extract.Location = new System.Drawing.Point(654, 294);
             this.groupBox_extract.Name = "groupBox_extract";
             this.groupBox_extract.Size = new System.Drawing.Size(139, 75);
             this.groupBox_extract.TabIndex = 7;
@@ -89,7 +100,7 @@
             // 
             // button_AddShip
             // 
-            this.button_AddShip.Location = new System.Drawing.Point(655, 186);
+            this.button_AddShip.Location = new System.Drawing.Point(653, 208);
             this.button_AddShip.Name = "button_AddShip";
             this.button_AddShip.Size = new System.Drawing.Size(140, 38);
             this.button_AddShip.TabIndex = 5;
@@ -100,7 +111,7 @@
             // pictureBox_doc
             // 
             this.pictureBox_doc.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.pictureBox_doc.Location = new System.Drawing.Point(6, 0);
+            this.pictureBox_doc.Location = new System.Drawing.Point(6, 31);
             this.pictureBox_doc.Name = "pictureBox_doc";
             this.pictureBox_doc.Size = new System.Drawing.Size(642, 450);
             this.pictureBox_doc.TabIndex = 4;
@@ -111,7 +122,7 @@
             this.groupBox_whatPlaces.Controls.Add(this.button_checking);
             this.groupBox_whatPlaces.Controls.Add(this.maskedTextBox_numPlace);
             this.groupBox_whatPlaces.Controls.Add(this.label_numPlace);
-            this.groupBox_whatPlaces.Location = new System.Drawing.Point(656, 372);
+            this.groupBox_whatPlaces.Location = new System.Drawing.Point(654, 394);
             this.groupBox_whatPlaces.Name = "groupBox_whatPlaces";
             this.groupBox_whatPlaces.Size = new System.Drawing.Size(139, 78);
             this.groupBox_whatPlaces.TabIndex = 8;
@@ -147,7 +158,7 @@
             // label_parks
             // 
             this.label_parks.AutoSize = true;
-            this.label_parks.Location = new System.Drawing.Point(695, 9);
+            this.label_parks.Location = new System.Drawing.Point(693, 31);
             this.label_parks.Name = "label_parks";
             this.label_parks.Size = new System.Drawing.Size(60, 13);
             this.label_parks.TabIndex = 10;
@@ -155,14 +166,14 @@
             // 
             // textBox_parkName
             // 
-            this.textBox_parkName.Location = new System.Drawing.Point(654, 25);
+            this.textBox_parkName.Location = new System.Drawing.Point(652, 47);
             this.textBox_parkName.Name = "textBox_parkName";
             this.textBox_parkName.Size = new System.Drawing.Size(140, 20);
             this.textBox_parkName.TabIndex = 9;
             // 
             // button_del
             // 
-            this.button_del.Location = new System.Drawing.Point(655, 145);
+            this.button_del.Location = new System.Drawing.Point(653, 167);
             this.button_del.Name = "button_del";
             this.button_del.Size = new System.Drawing.Size(140, 28);
             this.button_del.TabIndex = 13;
@@ -172,7 +183,7 @@
             // 
             // button_add
             // 
-            this.button_add.Location = new System.Drawing.Point(655, 51);
+            this.button_add.Location = new System.Drawing.Point(653, 73);
             this.button_add.Name = "button_add";
             this.button_add.Size = new System.Drawing.Size(140, 26);
             this.button_add.TabIndex = 12;
@@ -183,7 +194,7 @@
             // listBox_listDoc
             // 
             this.listBox_listDoc.FormattingEnabled = true;
-            this.listBox_listDoc.Location = new System.Drawing.Point(655, 83);
+            this.listBox_listDoc.Location = new System.Drawing.Point(653, 105);
             this.listBox_listDoc.Name = "listBox_listDoc";
             this.listBox_listDoc.Size = new System.Drawing.Size(140, 56);
             this.listBox_listDoc.TabIndex = 11;
@@ -191,7 +202,7 @@
             // 
             // buttonAddFromStack
             // 
-            this.buttonAddFromStack.Location = new System.Drawing.Point(656, 345);
+            this.buttonAddFromStack.Location = new System.Drawing.Point(654, 367);
             this.buttonAddFromStack.Name = "buttonAddFromStack";
             this.buttonAddFromStack.Size = new System.Drawing.Size(140, 26);
             this.buttonAddFromStack.TabIndex = 14;
@@ -199,11 +210,86 @@
             this.buttonAddFromStack.UseVisualStyleBackColor = true;
             this.buttonAddFromStack.Click += new System.EventHandler(this.buttonAddFromStack_Click);
             // 
+            // menuStrip_ship
+            // 
+            this.menuStrip_ship.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.menuStrip_ship.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip_ship.Name = "menuStrip_ship";
+            this.menuStrip_ship.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip_ship.TabIndex = 15;
+            this.menuStrip_ship.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.загрузитьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выбраннуюПарковкуToolStripMenuItem,
+            this.всеПарковкиToolStripMenuItem});
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            // 
+            // выбраннуюПарковкуToolStripMenuItem
+            // 
+            this.выбраннуюПарковкуToolStripMenuItem.Name = "выбраннуюПарковкуToolStripMenuItem";
+            this.выбраннуюПарковкуToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.выбраннуюПарковкуToolStripMenuItem.Text = "Выбранную парковку";
+            this.выбраннуюПарковкуToolStripMenuItem.Click += new System.EventHandler(this.сохранитьвыбраннуюПарковкуToolStripMenuItem_Click);
+            // 
+            // всеПарковкиToolStripMenuItem
+            // 
+            this.всеПарковкиToolStripMenuItem.Name = "всеПарковкиToolStripMenuItem";
+            this.всеПарковкиToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.всеПарковкиToolStripMenuItem.Text = "Все парковки";
+            this.всеПарковкиToolStripMenuItem.Click += new System.EventHandler(this.сохранитьвсеПарковкиToolStripMenuItem_Click);
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.однуПарковкуToolStripMenuItem,
+            this.всеПарковкиToolStripMenuItem1});
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Загрузить";
+            // 
+            // однуПарковкуToolStripMenuItem
+            // 
+            this.однуПарковкуToolStripMenuItem.Name = "однуПарковкуToolStripMenuItem";
+            this.однуПарковкуToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.однуПарковкуToolStripMenuItem.Text = "Одну парковку";
+            this.однуПарковкуToolStripMenuItem.Click += new System.EventHandler(this.загрузитьоднуПарковкуToolStripMenuItem_Click);
+            // 
+            // всеПарковкиToolStripMenuItem1
+            // 
+            this.всеПарковкиToolStripMenuItem1.Name = "всеПарковкиToolStripMenuItem1";
+            this.всеПарковкиToolStripMenuItem1.Size = new System.Drawing.Size(156, 22);
+            this.всеПарковкиToolStripMenuItem1.Text = "Все парковки";
+            this.всеПарковкиToolStripMenuItem1.Click += new System.EventHandler(this.загрузитьвсеПарковкиToolStripMenuItem_Click);
+            // 
+            // saveFileDialog_ship
+            // 
+            this.saveFileDialog_ship.Filter = "txt file | *.txt";
+            // 
+            // openFileDialog_ship
+            // 
+            this.openFileDialog_ship.FileName = "openFileDialog1";
+            this.openFileDialog_ship.Filter = "txt file | *.txt";
+            // 
             // FormDocks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 487);
+            this.Controls.Add(this.menuStrip_ship);
             this.Controls.Add(this.buttonAddFromStack);
             this.Controls.Add(this.button_del);
             this.Controls.Add(this.button_add);
@@ -221,6 +307,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_doc)).EndInit();
             this.groupBox_whatPlaces.ResumeLayout(false);
             this.groupBox_whatPlaces.PerformLayout();
+            this.menuStrip_ship.ResumeLayout(false);
+            this.menuStrip_ship.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,5 +332,15 @@
         private System.Windows.Forms.Button button_add;
         private System.Windows.Forms.ListBox listBox_listDoc;
         private System.Windows.Forms.Button buttonAddFromStack;
+        private System.Windows.Forms.MenuStrip menuStrip_ship;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_ship;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_ship;
+        private System.Windows.Forms.ToolStripMenuItem выбраннуюПарковкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem всеПарковкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem однуПарковкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem всеПарковкиToolStripMenuItem1;
     }
 }
