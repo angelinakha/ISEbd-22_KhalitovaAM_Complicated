@@ -130,19 +130,19 @@ namespace WindowsFormsBattleship
                     sw.WriteLine($"OnlyOneDock");
 
                     sw.WriteLine($"Docks{separator}{dockName}");
-                    IShip bus = null;
+                    IShip ship = null;
                     var level = parkingStages[dockName];
 
-                    for (int i = 0; (bus = level[i]) != null; i++)
+                    for (int i = 0; (ship = level[i]) != null; i++)
                     {
-                        if (bus != null)
+                        if (ship != null)
                         {
-                            if (bus.GetType().Name == "Ship")
+                            if (ship.GetType().Name == "Ship")
                             {
                                 sw.Write($"Ship{separator}");
 
                             }
-                            if (bus.GetType().Name == "Battleship")
+                            if (ship.GetType().Name == "Battleship")
                             {
                                 sw.Write($"Battleship{separator}");
                             }
