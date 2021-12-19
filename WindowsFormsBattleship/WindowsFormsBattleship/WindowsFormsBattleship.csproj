@@ -88,6 +88,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ship.cs" />
+    <Compile Include="ShipComparer.cs" />
     <Compile Include="StandartGuns.cs" />
     <Compile Include="TypesGunsEnum.cs" />
     <Compile Include="Vehicle.cs" />

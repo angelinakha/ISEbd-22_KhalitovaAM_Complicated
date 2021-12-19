@@ -7,7 +7,8 @@ using System.Drawing;
 
 namespace WindowsFormsBattleship
 {
-    public class Battleship : Ship
+    public class Battleship : Ship, IEquatable<Battleship>, IComparable<Battleship>, 
+        IEnumerable<object>, IEnumerator<object>
     {
         /// Дополнительный цвет
         public Color DopColor { private set; get; }
@@ -20,6 +21,10 @@ namespace WindowsFormsBattleship
         // Интерфейс с выбором оружия
         InterDop TypeRocket;
 
+        private int _currentIndex = -1;
+        public new LinkedList<object> objectProperties = new LinkedList<object>();
+        public new object Current => objectProperties.Find(_currentIndex);
+        object IEnumerator<object>.Current => objectProperties.Find(_currentIndex);
 
         public Battleship(int maxSpeed, float weight, Color mainColor, Color dopColor,
 bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mainColor, 120, 65)
@@ -40,6 +45,14 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             {
                 TypeRocket = new AutomaticGuns(typeRocket);
             }
+            objectProperties.AddLast(MaxSpeed);
+            objectProperties.AddLast(Weight);
+            objectProperties.AddLast(MainColor);
+            objectProperties.AddLast(DopColor);
+            objectProperties.AddLast(Rocket);
+            objectProperties.AddLast(Cannon);
+            objectProperties.AddLast(Guns);
+            objectProperties.AddLast(TypeRocket);
         }
         public Battleship(string info) : base(info)
         {
@@ -65,6 +78,14 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
                     TypeRocket = new AutomaticGuns(3);
                 }
                 Guns = new ClassDop(Convert.ToInt32(strs[7]));
+                objectProperties.AddLast(MaxSpeed);
+                objectProperties.AddLast(Weight);
+                objectProperties.AddLast(MainColor);
+                objectProperties.AddLast(DopColor);
+                objectProperties.AddLast(Rocket);
+                objectProperties.AddLast(Cannon);
+                objectProperties.AddLast(Guns);
+                objectProperties.AddLast(TypeRocket);
             }
         }
         public override void DrawShip(Graphics g)
@@ -100,6 +121,99 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
         {
             return
            $"{base.ToString()}{separator}{DopColor.Name}{separator}{Rocket}{separator}{Cannon}{separator}{TypeRocket.GetType().Name}{separator}{Guns.ToString()}";
+        }
+
+        /// Метод интерфейса IEquatable для класса Battleship
+        public bool Equals(Battleship other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (Rocket != other.Rocket)
+            {
+                return false;
+            }
+            if (Cannon != other.Cannon)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// Перегрузка метода от object
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Battleship shipObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(shipObj);
+            }
+        }
+        public int CompareTo(Battleship b)
+        {
+            var res = base.CompareTo(b);
+            if (res != 0)
+            {
+                return res;
+            }
+            if (DopColor != b.DopColor)
+            {
+                return DopColor.Name.CompareTo(b.DopColor.Name);
+            }
+            if (Rocket != b.Rocket)
+            {
+                return Rocket.CompareTo(b.Rocket);
+            }
+            if (Cannon != b.Cannon)
+            {
+                return Cannon.CompareTo(b.Cannon);
+            }
+            if (TypeRocket != b.TypeRocket)
+            {
+                return TypeRocket.CompareTo(b.TypeRocket);
+            }
+            if (Guns != b.Guns)
+            {
+                return Guns.CompareTo(b.Guns);
+            }
+            return 0;
+        }
+        /// Метод интерфейса IEnumerator, вызываемый при удалении объекта
+        public void Dispose()
+        {
+        }
+        public bool MoveNext()
+        {
+            _currentIndex++;
+            return _currentIndex < 8;
         }
     }
 }
