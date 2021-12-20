@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
+using System.Reflection;
+
 
 namespace WindowsFormsBattleship
 {
     public class Battleship : Ship, IEquatable<Battleship>, IComparable<Battleship>, 
-        IEnumerable<object>, IEnumerator<object>
+        IEnumerable<PropertyInfo>, IEnumerator<PropertyInfo>
     {
         /// Дополнительный цвет
         public Color DopColor { private set; get; }
@@ -17,14 +20,12 @@ namespace WindowsFormsBattleship
         // Признак наличия ракет
         public bool Rocket { private set; get; }
         //Доп класс
-        private ClassDop Guns;
+        public ClassDop Guns;
+        public string ClassDop => Guns.GetType().Name;
         // Интерфейс с выбором оружия
         InterDop TypeRocket;
+        public string InterDop => TypeRocket.GetType().Name;
 
-        private int _currentIndex = -1;
-        public new LinkedList<object> objectProperties = new LinkedList<object>();
-        public new object Current => objectProperties.Find(_currentIndex);
-        object IEnumerator<object>.Current => objectProperties.Find(_currentIndex);
 
         public Battleship(int maxSpeed, float weight, Color mainColor, Color dopColor,
 bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mainColor, 120, 65)
@@ -45,14 +46,6 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             {
                 TypeRocket = new AutomaticGuns(typeRocket);
             }
-            objectProperties.AddLast(MaxSpeed);
-            objectProperties.AddLast(Weight);
-            objectProperties.AddLast(MainColor);
-            objectProperties.AddLast(DopColor);
-            objectProperties.AddLast(Rocket);
-            objectProperties.AddLast(Cannon);
-            objectProperties.AddLast(Guns);
-            objectProperties.AddLast(TypeRocket);
         }
         public Battleship(string info) : base(info)
         {
@@ -78,14 +71,6 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
                     TypeRocket = new AutomaticGuns(3);
                 }
                 Guns = new ClassDop(Convert.ToInt32(strs[7]));
-                objectProperties.AddLast(MaxSpeed);
-                objectProperties.AddLast(Weight);
-                objectProperties.AddLast(MainColor);
-                objectProperties.AddLast(DopColor);
-                objectProperties.AddLast(Rocket);
-                objectProperties.AddLast(Cannon);
-                objectProperties.AddLast(Guns);
-                objectProperties.AddLast(TypeRocket);
             }
         }
         public override void DrawShip(Graphics g)
@@ -158,6 +143,14 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             {
                 return false;
             }
+            if (Guns.ToString() != other.Guns.ToString())
+            {
+                return false;
+            }           
+            if (InterDop != other.InterDop)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -175,6 +168,21 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             else
             {
                 return Equals(shipObj);
+            }
+        }
+        public int CompareTo(Object obj)
+        {
+            if (obj == null)
+            {
+                return -1;
+            }
+            if (!(obj is Battleship shipObj))
+            {
+                return -1;
+            }
+            else
+            {
+                return CompareTo(shipObj);
             }
         }
         public int CompareTo(Battleship b)
@@ -196,24 +204,22 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
             {
                 return Cannon.CompareTo(b.Cannon);
             }
-            if (TypeRocket != b.TypeRocket)
+            if (InterDop != b.InterDop)
             {
-                return TypeRocket.CompareTo(b.TypeRocket);
+                return InterDop.CompareTo(b.InterDop);
             }
-            if (Guns != b.Guns)
+            if (Guns.ToString() != b.Guns.ToString())
             {
-                return Guns.CompareTo(b.Guns);
+                return Guns.ToString().CompareTo(b.Guns.ToString());
             }
             return 0;
         }
-        /// Метод интерфейса IEnumerator, вызываемый при удалении объекта
-        public void Dispose()
+        private void printPropert()
         {
-        }
-        public bool MoveNext()
-        {
-            _currentIndex++;
-            return _currentIndex < 8;
+            foreach (var str in this.ToString().Split(separator))
+            {
+                Console.WriteLine(str);
+            }
         }
     }
 }

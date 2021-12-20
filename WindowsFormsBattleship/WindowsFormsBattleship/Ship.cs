@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
+using System.Reflection;
 
 
 namespace WindowsFormsBattleship
 {
-	public class Ship : Vehicle, IEquatable<Ship>, IComparable<Ship>, IEnumerator<object>, IEnumerable<object>
+	public class Ship : Vehicle, IEquatable<Ship>, IComparable<Ship>, 
+		IEnumerator<PropertyInfo>, IEnumerable<PropertyInfo>
 	{
 		/// Ширина отрисовки линкора
 		private readonly int shipWidth = 110;
@@ -18,11 +21,11 @@ namespace WindowsFormsBattleship
 		protected readonly char separator = ';';
 
 		private int _currentIndex = -1;
-		public new LinkedList<object> objectProperties = new LinkedList<object>();
-		public new object Current => objectProperties.Find(_currentIndex);
-		object IEnumerator<object>.Current => objectProperties.Find(_currentIndex);
+		private PropertyInfo[] ShipPropertyInfo => Type.GetType("Ship").GetProperties();
+		object IEnumerator.Current => ShipPropertyInfo[_currentIndex];
+        public PropertyInfo Current => ShipPropertyInfo[_currentIndex];
 
-		public Ship(int maxSpeed, float weight, Color mainColor)
+        public Ship(int maxSpeed, float weight, Color mainColor)
 		{
 			MaxSpeed = maxSpeed;
 			Weight = weight;
@@ -38,9 +41,6 @@ namespace WindowsFormsBattleship
 				MaxSpeed = Convert.ToInt32(strs[0]);
 				Weight = Convert.ToInt32(strs[1]);
 				MainColor = Color.FromName(strs[2]);
-				objectProperties.AddLast(MaxSpeed);
-				objectProperties.AddLast(Weight);
-				objectProperties.AddLast(MainColor);
 			}
 		}
 
@@ -52,9 +52,6 @@ namespace WindowsFormsBattleship
 			MainColor = mainColor;
 			this.shipWidth = shipWidth;
 			this.shipHeight = shipHeight;
-			objectProperties.AddLast(MaxSpeed);
-			objectProperties.AddLast(Weight);
-			objectProperties.AddLast(MainColor);
 		}
 
 		public override void DrawShip(Graphics g)
@@ -155,6 +152,21 @@ namespace WindowsFormsBattleship
 				return Equals(shipObj);
 			}
 		}
+		public int CompareTo(Object obj)
+		{
+			if (obj == null)
+			{
+				return -1;
+			}
+			if (!(obj is Ship shipObj))
+			{
+				return -1;
+			}
+			else
+			{
+				return CompareTo(shipObj);
+			}
+		}
 		public int CompareTo(Ship b)
 		{
 			if (MaxSpeed != b.MaxSpeed)
@@ -177,8 +189,13 @@ namespace WindowsFormsBattleship
 		}
 		public bool MoveNext()
 		{
-			_currentIndex++;
-			return _currentIndex < 8;
+			_currentIndex++; 
+			if (_currentIndex >= ShipPropertyInfo.Length)
+			{
+				Reset();
+				return false;
+			}
+			return true;
 		}
 
 		public void Reset()
@@ -186,14 +203,22 @@ namespace WindowsFormsBattleship
 			_currentIndex = -1;
 		}
 
-		public IEnumerator<object> GetEnumerator()
+		public IEnumerator<PropertyInfo> GetEnumerator()
 		{
-			return (IEnumerator<object>)objectProperties;
+			return this;
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
 		}
+		private void printPropert()
+		{
+			foreach (var proper in this)
+			{
+				Console.WriteLine(proper.Name.ToString());
+			}
+		}
+
 	}
 }
