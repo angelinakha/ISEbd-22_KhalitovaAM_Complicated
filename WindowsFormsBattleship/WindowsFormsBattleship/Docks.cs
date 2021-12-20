@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
+
 
 namespace WindowsFormsBattleship
 {
-	public class Docks<T, M> where T : class, IShip where M : class, InterDop
+	public class Docks<T, M> : IEnumerator<T>, IEnumerable<T>
+		where T : class, IShip where M : class, InterDop
 	{
 		/// Список объектов, которые храним
 		public readonly List<T> _places;
@@ -22,6 +25,11 @@ namespace WindowsFormsBattleship
 		/// Размер парковочного места (высота)
 		private readonly int _placeSizeHeight = 90;
 
+		// Текущий элемент для вывода через IEnumerator (будет обращаться по своему индексу к ключу словаря, по которму будет возвращаться запись)
+		private int _currentIndex;
+		public T Current => _places[_currentIndex];
+		object IEnumerator.Current => _places[_currentIndex];
+
 		public Docks(int picWidth, int picHeight)
 		{
 			int width = picWidth / _placeSizeWidth;
@@ -30,6 +38,7 @@ namespace WindowsFormsBattleship
 			_places = new List<T>();
 			pictureWidth = picWidth;
 			pictureHeight = picHeight;
+			_currentIndex = -1;
 		}
 
 		public static bool operator +(Docks<T, M> p, T ship)
@@ -37,6 +46,10 @@ namespace WindowsFormsBattleship
 			if (p._places.Count >= p._maxCount)
 			{
 				throw new DocksOverflowException();
+			}
+			if (p._places.Contains(ship))
+			{
+				throw new DocksAlreadyHaveException();
 			}
 			p._places.Add(ship);
 			return true;
@@ -126,6 +139,38 @@ namespace WindowsFormsBattleship
 		public void ClearDocks()
 		{
 			_places.Clear();
+		}
+
+		// Сортировка автомобилей на парковке
+		public void Sort() => _places.Sort((IComparer<T>)new ShipComparer());
+		// Метод интерфейса IEnumerator, вызываемый при удалении объекта
+		public void Dispose()
+		{
+		}
+		// Метод интерфейса IEnumerator для перехода к следующему элементу или началу коллекции
+		public bool MoveNext()
+		{
+			if (_currentIndex + 1 >= _places.Count)
+			{
+				return false;
+			}
+			_currentIndex++;
+			return true;
+		}
+		// Метод интерфейса IEnumerator для сброса и возврата к началу коллекции
+		public void Reset()
+		{
+			_currentIndex = -1;
+		}
+		// Метод интерфейса IEnumerable
+		public IEnumerator<T> GetEnumerator()
+		{
+			return this;
+		}
+		// Метод интерфейса IEnumerable
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return this;
 		}
 	}
 }

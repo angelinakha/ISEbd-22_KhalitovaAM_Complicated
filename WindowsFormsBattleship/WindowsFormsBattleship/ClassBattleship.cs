@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
+using System.Reflection;
+
 
 namespace WindowsFormsBattleship
 {
-    public class Battleship : Ship
+    public class Battleship : Ship, IEquatable<Battleship>, IComparable<Battleship>, 
+        IEnumerable<PropertyInfo>, IEnumerator<PropertyInfo>
     {
         /// Дополнительный цвет
         public Color DopColor { private set; get; }
@@ -16,9 +20,11 @@ namespace WindowsFormsBattleship
         // Признак наличия ракет
         public bool Rocket { private set; get; }
         //Доп класс
-        private ClassDop Guns;
+        public ClassDop Guns;
+        public string ClassDop => Guns.GetType().Name;
         // Интерфейс с выбором оружия
         InterDop TypeRocket;
+        public string InterDop => TypeRocket.GetType().Name;
 
 
         public Battleship(int maxSpeed, float weight, Color mainColor, Color dopColor,
@@ -100,6 +106,120 @@ bool rocket, bool cannon, int guns, int typeRocket) : base(maxSpeed, weight, mai
         {
             return
            $"{base.ToString()}{separator}{DopColor.Name}{separator}{Rocket}{separator}{Cannon}{separator}{TypeRocket.GetType().Name}{separator}{Guns.ToString()}";
+        }
+
+        /// Метод интерфейса IEquatable для класса Battleship
+        public bool Equals(Battleship other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (Rocket != other.Rocket)
+            {
+                return false;
+            }
+            if (Cannon != other.Cannon)
+            {
+                return false;
+            }
+            if (Guns.ToString() != other.Guns.ToString())
+            {
+                return false;
+            }           
+            if (InterDop != other.InterDop)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// Перегрузка метода от object
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Battleship shipObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(shipObj);
+            }
+        }
+        public int CompareTo(Object obj)
+        {
+            if (obj == null)
+            {
+                return -1;
+            }
+            if (!(obj is Battleship shipObj))
+            {
+                return -1;
+            }
+            else
+            {
+                return CompareTo(shipObj);
+            }
+        }
+        public int CompareTo(Battleship b)
+        {
+            var res = base.CompareTo(b);
+            if (res != 0)
+            {
+                return res;
+            }
+            if (DopColor != b.DopColor)
+            {
+                return DopColor.Name.CompareTo(b.DopColor.Name);
+            }
+            if (Rocket != b.Rocket)
+            {
+                return Rocket.CompareTo(b.Rocket);
+            }
+            if (Cannon != b.Cannon)
+            {
+                return Cannon.CompareTo(b.Cannon);
+            }
+            if (InterDop != b.InterDop)
+            {
+                return InterDop.CompareTo(b.InterDop);
+            }
+            if (Guns.ToString() != b.Guns.ToString())
+            {
+                return Guns.ToString().CompareTo(b.Guns.ToString());
+            }
+            return 0;
+        }
+        private void printPropert()
+        {
+            foreach (var str in this.ToString().Split(separator))
+            {
+                Console.WriteLine(str);
+            }
         }
     }
 }

@@ -57,6 +57,7 @@
     <Compile Include="AutomaticGuns.cs" />
     <Compile Include="ClassDop.cs" />
     <Compile Include="Docks.cs" />
+    <Compile Include="DocksAlreadyHaveException.cs" />
     <Compile Include="DocksCollection.cs" />
     <Compile Include="DocksNotFoundException.cs" />
     <Compile Include="DocksOccupiedPlaceException.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ship.cs" />
+    <Compile Include="ShipComparer.cs" />
     <Compile Include="StandartGuns.cs" />
     <Compile Include="TypesGunsEnum.cs" />
     <Compile Include="Vehicle.cs" />

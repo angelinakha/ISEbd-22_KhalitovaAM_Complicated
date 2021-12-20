@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace WindowsFormsBattleship
 {
-    class ClassDop
+    public class ClassDop
     {
         private DopEnum guns;
         public int Guns { set => guns = (DopEnum)value; }

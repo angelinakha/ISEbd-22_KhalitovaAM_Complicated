@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
+using System.Reflection;
 
 
 namespace WindowsFormsBattleship
 {
-	public class Ship : Vehicle
+	public class Ship : Vehicle, IEquatable<Ship>, IComparable<Ship>, 
+		IEnumerator<PropertyInfo>, IEnumerable<PropertyInfo>
 	{
 		/// Ширина отрисовки линкора
 		private readonly int shipWidth = 110;
@@ -17,7 +20,12 @@ namespace WindowsFormsBattleship
 		// Разделитель для записи информации по объекту в файл
 		protected readonly char separator = ';';
 
-		public Ship(int maxSpeed, float weight, Color mainColor)
+		private int _currentIndex = -1;
+		private PropertyInfo[] ShipPropertyInfo => Type.GetType("Ship").GetProperties();
+		object IEnumerator.Current => ShipPropertyInfo[_currentIndex];
+        public PropertyInfo Current => ShipPropertyInfo[_currentIndex];
+
+        public Ship(int maxSpeed, float weight, Color mainColor)
 		{
 			MaxSpeed = maxSpeed;
 			Weight = weight;
@@ -101,5 +109,116 @@ namespace WindowsFormsBattleship
 		{
 			return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
 		}
+
+		// Метод интерфейса IEquatable для класса Ship
+		public bool Equals(Ship other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+			if (GetType().Name != other.GetType().Name)
+			{
+				return false;
+			}
+			if (MaxSpeed != other.MaxSpeed)
+			{
+				return false;
+			}
+			if (Weight != other.Weight)
+			{
+				return false;
+			}
+			if (MainColor != other.MainColor)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		/// Перегрузка метода от object
+		public override bool Equals(Object obj)
+		{
+			if (obj == null)
+			{
+				return false;
+			}
+			if (!(obj is Ship shipObj))
+			{
+				return false;
+			}
+			else
+			{
+				return Equals(shipObj);
+			}
+		}
+		public int CompareTo(Object obj)
+		{
+			if (obj == null)
+			{
+				return -1;
+			}
+			if (!(obj is Ship shipObj))
+			{
+				return -1;
+			}
+			else
+			{
+				return CompareTo(shipObj);
+			}
+		}
+		public int CompareTo(Ship b)
+		{
+			if (MaxSpeed != b.MaxSpeed)
+			{
+				return MaxSpeed.CompareTo(b.MaxSpeed);
+			}
+			if (Weight != b.Weight)
+			{
+				return Weight.CompareTo(b.Weight);
+			}
+			if (MainColor != b.MainColor)
+			{
+				return MainColor.Name.CompareTo(b.MainColor.Name);
+			}
+			return 0;
+		}
+		public void Dispose()
+		{
+
+		}
+		public bool MoveNext()
+		{
+			_currentIndex++; 
+			if (_currentIndex >= ShipPropertyInfo.Length)
+			{
+				Reset();
+				return false;
+			}
+			return true;
+		}
+
+		public void Reset()
+		{
+			_currentIndex = -1;
+		}
+
+		public IEnumerator<PropertyInfo> GetEnumerator()
+		{
+			return this;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+		private void printPropert()
+		{
+			foreach (var proper in this)
+			{
+				Console.WriteLine(proper.Name.ToString());
+			}
+		}
+
 	}
 }
